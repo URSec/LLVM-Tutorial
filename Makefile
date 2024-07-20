@@ -42,7 +42,7 @@ tests/%.bc: tests/%.ll
 
 tests/%: tests/%.bc libmm_checker
 	@echo "Compiling tests to executables"
-	$(CC) -L$(ROOT_DIR)/lib -lmem_checker $< -o $@
+	$(CC) $< -o $@ -L$(ROOT_DIR)/lib -lmem_checker 
 
 .PHONY: bin
 bin: $(BIN_FILES)
