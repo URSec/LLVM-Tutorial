@@ -49,5 +49,6 @@ bin: $(BIN_FILES)
 
 clean:
 	rm -f tests/*.ll tests/*.o tests/*.bc $(BIN_FILES) lib/*.so lib/*.o
+	find tests -type f ! -name "*.*" -exec rm -f {} +
 
 .PHONY: all clean
