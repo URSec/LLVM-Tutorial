@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker run --platform linux/amd64 -it -w /llvm-tutorial jzhou41/llvm-tutorial

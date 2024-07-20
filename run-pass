@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# This script runs the LLVMTutorial pass on a human-readable LLVM IR file. It
+# takes one argument, which is the name of the target test program.
+#
+
+OPT="llvm-src/build/bin/opt"
+
+exec $OPT -passes=llvm-tutorial "tests/$1.ll" -S -o tests/$1.opt.ll
