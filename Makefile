@@ -3,6 +3,7 @@ BUILD_DIR := $(ROOT_DIR)/llvm-src/build
 
 CC := $(BUILD_DIR)/bin/clang
 OPT := $(BUILD_DIR)/bin/opt
+AR := $(BUILD_DIR)/bin/llvm-ar
 
 CFLAGS := -c -emit-llvm -S
 
@@ -28,12 +29,12 @@ all-tests: $(LL_FILES)
 lib/mem_checker.o: lib/mem_checker.c
 	$(CC) -c -fPIC $< -o $@
 
-lib/libmem_checker.so: lib/mem_checker.o
+lib/libmem_checker.a: lib/mem_checker.o
 	@echo "Creating the mem_checker lib"
-	$(CC) -shared -o $@ $<
+	$(AR) rsc $@ $<
 	@rm -f $<
 
-libmm_checker: lib/libmem_checker.so
+libmm_checker: lib/libmem_checker.a
 
 tests/%.bc: tests/%.ll
 	@echo "Instrumenting IR"
@@ -41,7 +42,7 @@ tests/%.bc: tests/%.ll
 
 tests/%: tests/%.bc libmm_checker
 	@echo "Compiling tests to executables"
-	$(CC) -Llib -lmem_checker $< -o $@
+	$(CC) -L$(ROOT_DIR)/lib -lmem_checker $< -o $@
 
 .PHONY: bin
 bin: $(BIN_FILES)
